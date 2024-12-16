@@ -20,8 +20,8 @@ const employeeSchema = require('./models/Employee');
 
 // Mapping of database names to their respective URIs
 const uriMap = {
-  ProductsDB: process.env.MONGO_CLIENT_URI, // For Products collection
-  UsersEmployeesDB: process.env.MONGO_SERVER_URI,
+  "12pm-client-MECAZON": process.env.MONGO_CLIENT_URI, // For Products collection
+  // UsersEmployeesDB: process.env.MONGO_SERVER_URI
   // For Users and Employees collections
 };
 
@@ -68,15 +68,15 @@ const getModel = async (dbName, collectionName) => {
     // Assign the appropriate schema based on the collection name
     let schema;
     switch (collectionName) {
-      case "Products":
-        schema = productSchema;
-        break;
-      case "Users":
-        schema = userSchema;
-        break;
-      case "Employees":
-        schema = employeeSchema;
-        break;
+      // case "Products":
+      //   schema = productSchema;
+      //   break;
+      // case "Users":
+      //   schema = userSchema;
+      //   break;
+      // case "Employees":
+      //   schema = employeeSchema;
+      //   break;
       default:
         throw new Error(`No schema defined for collection: ${collectionName}`);
     }
@@ -195,32 +195,32 @@ app.put("/update/:database/:collection/:id", async (req, res) => {
 // Test connections before starting server
 async function startServer() {
   try {
-    console.log("Starting server with environment variables:", {
-      MONGO_CLIENT_URI: process.env.MONGO_CLIENT_URI ? "Present" : "Missing",
-      MONGO_SERVER_URI: process.env.MONGO_SERVER_URI ? "Present" : "Missing",
-      PORT: process.env.PORT || 3000,
-    });
-    console.log("Raw URIs:", {
-      client: process.env.MONGO_CLIENT_URI,
-      server: process.env.MONGO_SERVER_URI,
-    });
+    // console.log("Starting server with environment variables:", {
+    //   MONGO_CLIENT_URI: process.env.MONGO_CLIENT_URI ? "Present" : "Missing",
+    //   MONGO_SERVER_URI: process.env.MONGO_SERVER_URI ? "Present" : "Missing",
+    //   PORT: process.env.PORT || 3000,
+    // });
+    // console.log("Raw URIs:", {
+    //   client: process.env.MONGO_CLIENT_URI,
+    //   server: process.env.MONGO_SERVER_URI,
+    // });
 
     // Only test ProductsDB for now since we only have Products schema
-    const testDatabases = ["ProductsDB"];
-    for (const dbName of testDatabases) {
-      const connection = await getConnection(dbName);
-      console.log(`Successfully connected to MongoDB database: ${dbName}`);
+    // const testDatabases = ["ProductsDB"];
+    // for (const dbName of testDatabases) {
+    //   const connection = await getConnection(dbName);
+    //   console.log(`Successfully connected to MongoDB database: ${dbName}`);
 
-      // Only test Products collection
-      const testCollections = ["Products"];
-      for (const collectionName of testCollections) {
-        const Model = await getModel(dbName, collectionName);
-        const count = await Model.estimatedDocumentCount();
-        console.log(
-          `Found approximately ${count} documents in ${collectionName} collection of ${dbName}`
-        );
-      }
-    }
+    //   // Only test Products collection
+    //   const testCollections = ["Products"];
+    //   for (const collectionName of testCollections) {
+    //     const Model = await getModel(dbName, collectionName);
+    //     const count = await Model.estimatedDocumentCount();
+    //     console.log(
+    //       `Found approximately ${count} documents in ${collectionName} collection of ${dbName}`
+    //     );
+    //   }
+    // }
 
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
