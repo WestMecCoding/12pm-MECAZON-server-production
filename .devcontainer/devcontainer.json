@@ -13,8 +13,8 @@
   },
   "forwardPorts": [3000],
   "remoteEnv": {
-    "MONGO_CLIENT_URI": "${localEnv:MONGO_DEV_CLIENT_URI}",
-    "MONGO_SERVER_URI": "${localEnv:MONGO_DEV_SERVER_URI}",
+    "MONGO_CLIENT_URI": "${localEnv:MONGO_PROD_CLIENT_URI}",
+    "MONGO_SERVER_URI": "${localEnv:MONGO_PROD_SERVER_URI}",
     "postCreateCommand": "bash -c 'npm install && cp .devcontainer/devcontainer.env .env.production'",
     "shutdownAction": "none"
   }
