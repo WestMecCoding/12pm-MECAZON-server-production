@@ -1,5 +1,5 @@
 {
-  "name": "teamC-dev-MECAZON-server",
+  "name": "MECAZON-server",
   "image": "mcr.microsoft.com/vscode/devcontainers/base:0-focal",
   "features": {
     "ghcr.io/devcontainers/features/node:1": {
@@ -15,7 +15,7 @@
   "remoteEnv": {
     "MONGO_CLIENT_URI": "${localEnv:MONGO_DEV_CLIENT_URI}",
     "MONGO_SERVER_URI": "${localEnv:MONGO_DEV_SERVER_URI}",
-    "postCreateCommand": "bash -c 'npm install && echo \"MONGO_CLIENT_URI=${ MONGO_DEV_CLIENT_URI}\nMONGO_SERVER_URI=${MONGO_DEV_SERVER_URI}\nPORT=3000\" > .env.production'",
+    "postCreateCommand": "bash -c 'npm install && cp .devcontainer/devcontainer.env .env.production'",
     "shutdownAction": "none"
   }
 }
