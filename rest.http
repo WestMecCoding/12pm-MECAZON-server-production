@@ -2,217 +2,131 @@
 @baseUrl = http://127.0.0.1:3000
 
 ###
-# Test GET /find/:database/:collection
-###
+
+#Get Products
 GET {{baseUrl}}/find/12pm-client-MECAZON/products
 Content-Type: application/json
 
 ###
 
+#Get Employees
 GET {{baseUrl}}/find/12pm-server-MECAZON/employees
 Content-Type: application/json
 
 ###
 
-GET {{baseUrl}}/find/UsersEmployeesDB/Employees
+#Get users
+GET {{baseUrl}}/find/12pm-server-MECAZON/users
 Content-Type: application/json
 
 ###
 
-###
-# Test POST /insert/:database/:collection
-###
-# Insert a single Product
+
+# Insert a Product
 POST {{baseUrl}}/insert/12pm-client-MECAZON/products
 Content-Type: application/json
 
 {
-    "documents": [
-  {
-    "item": "Notebook",
-    "price_in_usd": 2.99,
-    "category": "Educational Supplies",
-    "stock_quantity": 150,
-    "description": "A 200-page spiral notebook for school and office use.",
-    "discount": 5,
-    "imgSrc": "./blue-notebook.png"
-  },
-  {
-    "item": "Ballpoint Pen Set",
-    "price_in_usd": 4.49,
-    "category": "Educational Supplies",
-    "stock_quantity": 200,
-    "description": "Set of 10 smooth-writing ballpoint pens.",
-    "discount": 0,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Office Chair",
-    "price_in_usd": 149.99,
-    "category": "Office Furniture",
-    "stock_quantity": 25,
-    "description": "Ergonomic office chair with adjustable height and lumbar support.",
-    "discount": 10,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Standing Desk",
-    "price_in_usd": 299.99,
-    "category": "Office Furniture",
-    "stock_quantity": 10,
-    "description": "Height-adjustable standing desk with a spacious work surface.",
-    "discount": 15,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Wireless Mouse",
-    "price_in_usd": 19.99,
-    "category": "Electronics",
-    "stock_quantity": 50,
-    "description": "Wireless ergonomic mouse with adjustable DPI settings.",
-    "discount": 5,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Mechanical Keyboard",
-    "price_in_usd": 89.99,
-    "category": "Electronics",
-    "stock_quantity": 30,
-    "description": "RGB mechanical keyboard with customizable keys and tactile switches.",
-    "discount": 10,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Travel Backpack",
-    "price_in_usd": 59.99,
-    "category": "Travel Supplies and Luggage",
-    "stock_quantity": 75,
-    "description": "Water-resistant travel backpack with multiple compartments.",
-    "discount": 0,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Carry-On Luggage",
-    "price_in_usd": 129.99,
-    "category": "Travel Supplies and Luggage",
-    "stock_quantity": 20,
-    "description": "Durable carry-on luggage with spinner wheels and TSA-approved locks.",
-    "discount": 15,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Snack Box Assortment",
-    "price_in_usd": 14.99,
-    "category": "Snacks, Games, Gifts",
-    "stock_quantity": 100,
-    "description": "A variety of snacks including chips, cookies, and nuts.",
-    "discount": 0,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Board Game Set",
-    "price_in_usd": 34.99,
-    "category": "Snacks, Games, Gifts",
-    "stock_quantity": 40,
-    "description": "Family-friendly board game set with classic games like chess and checkers.",
-    "discount": 5,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Wireless Earbuds",
-    "price_in_usd": 49.99,
-    "category": "Electronics",
-    "stock_quantity": 60,
-    "description": "True wireless earbuds with noise-cancellation and long battery life.",
-    "discount": 10,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Desk Lamp",
-    "price_in_usd": 24.99,
-    "category": "Office Furniture",
-    "stock_quantity": 40,
-    "description": "LED desk lamp with adjustable brightness and USB charging port.",
-    "discount": 5,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Reusable Water Bottle",
-    "price_in_usd": 15.99,
-    "category": "Travel Supplies and Luggage",
-    "stock_quantity": 120,
-    "description": "Stainless steel insulated water bottle, keeps drinks hot or cold.",
-    "discount": 0,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Whiteboard Markers",
-    "price_in_usd": 6.99,
-    "category": "Educational Supplies",
-    "stock_quantity": 80,
-    "description": "Set of 8 colorful whiteboard markers with low odor.",
-    "discount": 0,
-    "imgSrc": "./"
-  },
-  {
-    "item": "Filing Cabinet",
-    "price_in_usd": 179.99,
-    "category": "Office Furniture",
-    "stock_quantity": 15,
-    "description": "Lockable 3-drawer filing cabinet for office organization.",
-    "discount": 10,
-    "imgSrc": "./"
-  }
-]
-
-}
-
-###
-
-# Insert multiple Users
-POST {{baseUrl}}/insert/UsersEmployeesDB/Users
-Content-Type: application/json
-
-{
-    "documents": [
-        {
-            "username": "jane_doe",
-            "name": "Jane Doe",
-            "accountid:": 920129,
-            "password": "pw12"
-        },
-        {
-            "username": "john_doe",
-            "name": "John Doe",
-            "accountid:": 5612873,
-            "password": "pw20"
-        }
-
-    ]
-}
-
-###
-
-###
-# Test PUT /update/:database/:collection/:id
-###
-# Update a Product (Replace {product_id} with an actual ID)
-PUT {{baseUrl}}/update/ProductsDB/Products/{product_id}
-Content-Type: application/json
-
-{
-    "update": {
-        "price": 2.49
+    "document": {
+        "item": "Laptop",
+        "price_in_usd": 799.99,
+        "category": "Electronics",
+        "stock_quantity": 50,
+        "description": "A high-performance laptop with 16GB RAM and 512GB SSD for gaming and productivity.",
+        "discount": "10",
+        "imgSrc": "./laptop-image.png"
     }
 }
 
 ###
 
+# Insert an Employee
+POST {{baseUrl}}/insert/12pm-server-MECAZON/employees
+Content-Type: application/json
+
+{
+    "document":{ 
+    "id": 1, "name": "Micheal Woods", 
+    "position": "Janitor", 
+    "birthdate": "1960-02-11", 
+    "dateEmployed": "2019-07-15" },
+}
+
 ###
-# Test DELETE /delete/:database/:collection/:id
+
+# Insert a User
+POST {{baseUrl}}/insert/12pm-server-MECAZON/users
+Content-Type: application/json
+
+{
+    "document": { 
+        "username": "cmalco709", 
+        "name": "Carter Malcom", 
+        "password": "vH5$@#8kG!" 
+        }
+}
+
 ###
-# Delete a User (Replace {user_id} with an actual ID)
-DELETE {{baseUrl}}/delete/12pm-client-MECAZON/products/6761cb77c70cfb150b786309
+
+# Delete a Product
+DELETE {{baseUrl}}/delete/12pm-client-MECAZON/products/id
 Content-Type: application/json
 
 ###
+
+# Delete an Employee
+DELETE {{baseUrl}}/delete/12pm-server-MECAZON/employees/id
+Content-Type: application/json
+
+###
+
+# Delete a User
+DELETE {{baseUrl}}/delete/12pm-server-MECAZON/users/id
+Content-Type: application/json
+
+###
+
+# Update a Product
+PUT {{baseUrl}}/update/12pm-client-MECAZON/products/67621ebe353a488a9a406849
+Content-Type: application/json
+
+{
+"update": {
+        "item": "Laptop",
+        "price_in_usd": 799.99,
+        "category": "Electronics",
+        "stock_quantity": 50,
+        "description": "A high-performance laptop with 16GB RAM and 512GB SSD for gaming and productivity.",
+        "discount": "10",
+        "imgSrc": "./laptop-image.png"
+    }
+}
+
+###
+
+# Update an Employee
+PUT {{baseUrl}}/update/12pm-server-MECAZON/employees/id
+Content-Type: application/json
+
+{
+"update": {
+    "id": 1, "name": "Micheal Woods", 
+    "position": "Janitor", 
+    "birthdate": "1960-02-11", 
+    "dateEmployed": "2019-07-15" 
+    }
+}
+
+###
+
+# Update a User
+PUT {{baseUrl}}/update/12pm-server-MECAZON/users/id
+Content-Type: application/json
+
+{
+"update": { 
+        "username": "cmalco709", 
+        "name": "Carter Malcom", 
+        "password": "vH5$@#8kG!" 
+    }
+}

@@ -27,6 +27,8 @@ app.use(express.json());
 
 // Import Schema - only Products needed
 const productSchema = require("./models/Product");
+const employeeSchema = require("./models/Employee");
+const userSchema = require("./models/User");
 
 // Mapping of database names to their respective URIs
 const uriMap = {
@@ -74,12 +76,23 @@ const getModel = async (dbName, collectionName) => {
     console.log("Model not found in cache, creating new model");
     const connection = await getConnection(dbName);
 
-    // Only handle products collection
-    if (collectionName.toLowerCase() !== "products") {
-      throw new Error("Only products collection is supported");
+    // Assign the appropriate schema based on the collection name
+    let schema;
+    switch (collectionName) {
+      case "products":
+        schema = productSchema;
+        break;
+      case "users":
+        schema = userSchema;
+        break;
+      case "employees":
+        schema = employeeSchema;
+        break;
+      default:
+        throw new Error(`No schema defined for collection: ${collectionName}`);
     }
 
-    models[modelKey] = connection.model("Products", productSchema, "products");
+    models[modelKey] = connection.model(collectionName, schema, collectionName);
     console.log(`Created new model for collection: ${collectionName}`);
   } else {
     console.log(`Reusing cached model for: ${modelKey}`);
