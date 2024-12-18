@@ -31,6 +31,7 @@ const productSchema = require("./models/Product");
 // Mapping of database names to their respective URIs
 const uriMap = {
   "12pm-client-MECAZON": process.env.MONGO_CLIENT_URI, // Only Products database
+  "12pm-server-MECAZON": process.env.MONGO_SERVER_URI
 };
 
 // Store connections and models
