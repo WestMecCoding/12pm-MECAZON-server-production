@@ -1,0 +1,132 @@
+# Base URL
+@baseUrl = http://127.0.0.1:3000
+
+###
+
+#Get Products
+GET {{baseUrl}}/find/12pm-client-MECAZON/products
+Content-Type: application/json
+
+###
+
+#Get Employees
+GET {{baseUrl}}/find/12pm-server-MECAZON/employees
+Content-Type: application/json
+
+###
+
+#Get users
+GET {{baseUrl}}/find/12pm-server-MECAZON/users
+Content-Type: application/json
+
+###
+
+
+# Insert a Product
+POST {{baseUrl}}/insert/12pm-client-MECAZON/products
+Content-Type: application/json
+
+{
+    "document": {
+        "item": "Laptop",
+        "price_in_usd": 799.99,
+        "category": "Electronics",
+        "stock_quantity": 50,
+        "description": "A high-performance laptop with 16GB RAM and 512GB SSD for gaming and productivity.",
+        "discount": "10",
+        "imgSrc": "./laptop-image.png"
+    }
+}
+
+###
+
+# Insert an Employee
+POST {{baseUrl}}/insert/12pm-server-MECAZON/employees
+Content-Type: application/json
+
+{
+    "document":{ 
+    "id": 1, "name": "Micheal Woods", 
+    "position": "Janitor", 
+    "birthdate": "1960-02-11", 
+    "dateEmployed": "2019-07-15" },
+}
+
+###
+
+# Insert a User
+POST {{baseUrl}}/insert/12pm-server-MECAZON/users
+Content-Type: application/json
+
+{
+    "document": { 
+        "username": "cmalco709", 
+        "name": "Carter Malcom", 
+        "password": "vH5$@#8kG!" 
+        }
+}
+
+###
+
+# Delete a Product
+DELETE {{baseUrl}}/delete/12pm-client-MECAZON/products/id
+Content-Type: application/json
+
+###
+
+# Delete an Employee
+DELETE {{baseUrl}}/delete/12pm-server-MECAZON/employees/id
+Content-Type: application/json
+
+###
+
+# Delete a User
+DELETE {{baseUrl}}/delete/12pm-server-MECAZON/users/id
+Content-Type: application/json
+
+###
+
+# Update a Product
+PUT {{baseUrl}}/update/12pm-client-MECAZON/products/id
+Content-Type: application/json
+
+{
+"update": {
+        "item": "Laptop",
+        "price_in_usd": 799.99,
+        "category": "Electronics",
+        "stock_quantity": 50,
+        "description": "A high-performance laptop with 16GB RAM and 512GB SSD for gaming and productivity.",
+        "discount": "10",
+        "imgSrc": "./laptop-image.png"
+    }
+}
+
+###
+
+# Update an Employee
+PUT {{baseUrl}}/update/12pm-server-MECAZON/employees/id
+Content-Type: application/json
+
+{
+"update": {
+    "id": 1, "name": "Micheal Woods", 
+    "position": "Janitor", 
+    "birthdate": "1960-02-11", 
+    "dateEmployed": "2019-07-15" 
+    }
+}
+
+###
+
+# Update a User
+PUT {{baseUrl}}/update/12pm-server-MECAZON/users/id
+Content-Type: application/json
+
+{
+"update": { 
+        "username": "cmalco709", 
+        "name": "Carter Malcom", 
+        "password": "vH5$@#8kG!" 
+    }
+}

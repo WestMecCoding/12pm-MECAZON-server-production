@@ -2,38 +2,32 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv");
-const path = require("path");
+
 // Load environment variables
 dotenv.config({
-  path: path.join(__dirname, ".devcontainer", "devcontainer.env"),
+  path:
+    process.env.NODE_ENV === "production"
+      ? "./.env.production"
+      : "./.devcontainer/devcontainer.env",
 });
-console.log("Current working directory:", process.cwd());
-console.log(
-  "Attempting to load env from:",
-  `${process.cwd()}/.devcontainer/devcontainer.env`
-);
-console.log(
-  "Env loading result:",
-  dotenv.config({
-    path: "./.devcontainer/devcontainer.env",
-  })
-);
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(cors());
-app.use(express.json());
+app.use(express.json()); // To parse JSON bodies
 
-// Import Schema - only Products needed
+// Import Schemas
 const productSchema = require("./models/Product");
-const employeeSchema = require("./models/Employee");
 const userSchema = require("./models/User");
+const employeeSchema = require("./models/Employee");
 
 // Mapping of database names to their respective URIs
 const uriMap = {
-  "12pm-client-MECAZON": process.env.MONGO_CLIENT_URI, // Only Products database
-  "12pm-server-MECAZON": process.env.MONGO_SERVER_URI
+  "12pm-client-MECAZON": process.env.MONGO_CLIENT_URI, // For Products collection
+  // UsersEmployeesDB: process.env.MONGO_SERVER_URI
+  // For Users and Employees collections
 };
 
 // Store connections and models
@@ -50,7 +44,7 @@ const getConnection = async dbName => {
 
   if (!connections[dbName]) {
     const DB_URI = uriMap[dbName];
-    console.log(`Creating new connection for ${dbName}`);
+    console.log(`Creating new connection for ${dbName}.`);
 
     connections[dbName] = await mongoose.createConnection(DB_URI, {
       useNewUrlParser: true,
@@ -79,15 +73,15 @@ const getModel = async (dbName, collectionName) => {
     // Assign the appropriate schema based on the collection name
     let schema;
     switch (collectionName) {
-      case "products":
-        schema = productSchema;
-        break;
-      case "users":
-        schema = userSchema;
-        break;
-      case "employees":
-        schema = employeeSchema;
-        break;
+      // case "Products":
+      //   schema = productSchema;
+      //   break;
+      // case "Users":
+      //   schema = userSchema;
+      //   break;
+      // case "Employees":
+      //   schema = employeeSchema;
+      //   break;
       default:
         throw new Error(`No schema defined for collection: ${collectionName}`);
     }
@@ -128,13 +122,16 @@ app.post("/insert/:database/:collection", async (req, res) => {
     const { database, collection } = req.params;
     const Model = await getModel(database, collection);
 
+    // Check if single or multiple documents
     if (req.body.document) {
+      // Single document insert
       const newDocument = await Model.create(req.body.document);
       res.status(201).json({
         message: "Document inserted successfully",
         insertedId: newDocument._id,
       });
     } else if (req.body.documents && Array.isArray(req.body.documents)) {
+      // Multiple documents insert
       const newDocuments = await Model.insertMany(req.body.documents);
       res.status(201).json({
         message: `${newDocuments.length} documents inserted`,
@@ -200,31 +197,65 @@ app.put("/update/:database/:collection/:id", async (req, res) => {
   }
 });
 
-// Safety check for environment variables
-if (!process.env.MONGO_CLIENT_URI) {
-  console.error("Required MONGO_CLIENT_URI environment variable is missing");
-  process.exit(1);
-}
+// Test connections before starting server
+// async function startServer() {
+//   try {
+//     // console.log("Starting server with environment variables:", {
+//     //   MONGO_CLIENT_URI: process.env.MONGO_CLIENT_URI ? "Present" : "Missing",
+//     //   MONGO_SERVER_URI: process.env.MONGO_SERVER_URI ? "Present" : "Missing",
+//     //   PORT: process.env.PORT || 3000,
+//     // });
+//     // console.log("Raw URIs:", {
+//     //   client: process.env.MONGO_CLIENT_URI,
+//     //   server: process.env.MONGO_SERVER_URI,
+//     // });
 
-// Start server
+//     // Only test ProductsDB for now since we only have Products schema
+//     // const testDatabases = ["ProductsDB"];
+//     // for (const dbName of testDatabases) {
+//     //   const connection = await getConnection(dbName);
+//     //   console.log(`Successfully connected to MongoDB database: ${dbName}`);
+
+//     //   // Only test Products collection
+//     //   const testCollections = ["Products"];
+//     //   for (const collectionName of testCollections) {
+//     //     const Model = await getModel(dbName, collectionName);
+//     //     const count = await Model.estimatedDocumentCount();
+//     //     console.log(
+//     //       `Found approximately ${count} documents in ${collectionName} collection of ${dbName}`
+//     //     );
+//     //   }
+//     // }
+// try {
+//     console.log(`Starting server in ${process.env.NODE_ENV} mode`);
+
+//     app.listen(PORT, () => {
+//       console.log(`Server running on http://localhost:${PORT}`);
+//       console.log(`Environment: ${process.env.NODE_ENV}`);
+//     });
+//   } catch (err) {
+//     console.error("Error starting server:", err);
+//     process.exit(1);
+//   }
+//     app.listen(PORT, () => {
+//       console.log(`Server running on http://localhost:${PORT}`);
+//     });
+//   } catch (err) {
+//     console.error("Error starting server:", err);
+//     process.exit(1);
+//   }
+// }
 async function startServer() {
   try {
-    console.log(
-      `Starting server in ${process.env.NODE_ENV || "undefined"} mode`
-    );
-    console.log("Database configuration:", {
-      availableDatabases: Object.keys(uriMap),
-      MONGO_CLIENT_URI: process.env.MONGO_CLIENT_URI ? "Present" : "Missing",
-    });
+    console.log(`Starting server in ${process.env.NODE_ENV} mode`);
 
     app.listen(PORT, () => {
       console.log(`Server running on http://localhost:${PORT}`);
-      console.log(`Environment: ${process.env.NODE_ENV || "undefined"}`);
+      console.log(`Environment: ${process.env.NODE_ENV}`);
     });
   } catch (err) {
     console.error("Error starting server:", err);
     process.exit(1);
   }
 }
-
 startServer();
